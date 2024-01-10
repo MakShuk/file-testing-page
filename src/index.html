@@ -1,0 +1,73 @@
+<!DOCTYPE html>
+<html lang="en">
+	<head>
+		<meta charset="utf-8" />
+		<meta name="viewport" content="width=device-width, initial-scale=1" />
+		<title>Code</title>
+		<link
+			href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css"
+			rel="stylesheet"
+			integrity="sha384-T3c6CoIi6uLrA9TneNEoa7RxnatzjcDSCmG1MXxSR1GAsXEV/Dwwykc2MPK8M2HN"
+			crossorigin="anonymous"
+		/>
+		<link href="prism.css" rel="stylesheet" />
+		<script defer="defer" src="prism.js"></script>
+	</head>
+	<body>
+		<div class="p-2" id="questionsArea">
+			<div class="form-check form-switch">
+				<input class="form-check-input" type="checkbox" role="switch" id="questions-1" value="сheck the spelling of the variables">
+				<label class="form-check-label text-light" for="questions-1">Проверить правописание</label>
+			</div>  
+			<div class="form-check form-switch">
+				<input class="form-check-input" type="checkbox" role="switch" id="questions-2"  value="сheck if the file name is spelled correctly">
+				<label class="form-check-label text-light" for="questions-2">Проверить имя файла</label>
+			</div>
+			<div class="form-check form-switch">
+				<input class="form-check-input" type="checkbox" role="switch" id="questions-3" value="refactor the resulting code" checked>
+				<label class="form-check-label text-light"" for="questions-3">Сделай рефакторинг кода</label>
+			</div>
+			<div class="form-check form-switch">
+				<input class="form-check-input" type="checkbox" role="switch" id="questions-4" value="improving the typing of this code">
+				<label class="form-check-label text-light" for="questions-4">Улучши типизацию</label>
+			</div>
+		</div>
+		<div id="statusArea" class="alert alert-success" role="alert">OK</div>
+		<div class="mb-3">
+			<input
+				type="text"
+				class="form-control"
+				id="inputQuestion"
+				placeholder="Введите путь до файла"
+			/>
+		</div>
+			<div class="bg-dack text-light" id="answerArea" style="display: none"></div>
+		</div>
+		<button id="answerButton" type="submit" class="btn text-light mt-3">Спросить</button>
+		<script
+			src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"
+			integrity="sha384-C6RzsynM9kWDrMNeT87bh95OGNyZPhcTNXj1NW7RuBCsyN/o0jlpcV8Qyq46cDfL"
+			crossorigin="anonymous"
+		></script>
+		<script>
+			const startObserving = () => {
+				const observer = new MutationObserver(mutations => {
+					const status = document.getElementById('statusArea');
+					if (status.textContent === 'Форматирование') {
+						status.textContent = 'OK'
+						Prism.highlightAll();
+						console.log('Форматирование');
+					}
+				});
+
+				const config = {
+					attributes: true,
+					childList: true,
+					subtree: true,
+				};
+				observer.observe(document.body, config);
+			};
+			window.addEventListener('load', startObserving);
+		</script>
+	</body>
+</html>

@@ -1,0 +1,27 @@
+body {
+	height: minmax(max-content, 550px);
+	width: 780px;
+	background-color: rgb(52, 53, 65);
+	display: flex;
+	align-self: center;
+	flex-direction: column;
+	padding: 20px;
+	margin: 0 auto;
+
+    #questionsArea {
+        display: grid;
+        grid-template-columns: 1fr 1fr;
+    }
+
+	#statusArea {
+		text-align: center;
+        padding: 1px;
+	}
+
+    #answerButton {
+			background-color: #238143;
+			color: #ececf1;
+		}
+
+    
+}
