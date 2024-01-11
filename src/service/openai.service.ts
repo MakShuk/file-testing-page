@@ -26,8 +26,8 @@ export class OpenaiService {
 		try {
 			const completion = await this.openai.chat.completions.create({
 				messages: messages,
-				model: 'gpt-3.5-turbo-16k',
-				temperature: 0.5,
+				model: 'gpt-3.5-turbo-16k-0613',
+				temperature: 2.0,
 			});
 			if (!completion.choices[0]?.message) {
 				throw new Error('openai.chat.completions is undefined');

@@ -1,6 +1,6 @@
 export enum ElementsSelector {
-	inputQuestion = '#inputQuestion',
-	answerButton = '#answerButton',
-	answerArea = `#answerArea`,
-	statusArea = `#statusArea`,
+	InputQuestion = '#inputQuestion',
+	AnswerButton = '#answerButton',
+	AnswerArea = '#answerArea',
+	StatusArea = '#statusArea',
 }

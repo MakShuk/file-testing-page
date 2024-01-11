@@ -8,7 +8,7 @@ export async function requestToOpenAi(question: string) {
 	const GPT_KEY = process.env.API_KEY;
 	if (!GPT_KEY) throw new Error(`Ключ OPEN_AI не найден`);
 	const chatGpt = new OpenaiService(GPT_KEY);
-	const statusArea = new PageElementService(ElementsSelector.statusArea);
+	const statusArea = new PageElementService(ElementsSelector.StatusArea);
 
 	if (statusArea.getTextContent().content !== 'OK') throw new Error('Запрос уже выполняется');
 
@@ -19,7 +19,7 @@ export async function requestToOpenAi(question: string) {
 
 	const stream = await chatGpt.streamResponse(questionMessaege);
 
-	const answerArea = new PageElementService(ElementsSelector.answerArea);
+	const answerArea = new PageElementService(ElementsSelector.AnswerArea);
 	answerArea.addHTML('', true);
 	answerArea.hide(false);
 

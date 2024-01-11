@@ -1,3 +1,4 @@
+import axios from 'axios';
 import { ElementsSelector } from './enums/selector.enum';
 import { requestToOpenAi } from './scripts/request-to-openai';
 import { PageElementService } from './service/page-elemen.service';
@@ -5,15 +6,20 @@ import './style.scss';
 export { OpenaiService } from './service/openai.service';
 
 async function main() {
-	const answerButton = new PageElementService(ElementsSelector.answerButton);
+	const answerButton = new PageElementService(ElementsSelector.AnswerButton);
 
 	answerButton.addEvent(async () => {
 		answerButton.hide(true);
+		const taskCode = await getFileContent();
 		const tasks = getRequestParammetr();
-		const massege = messegeConsructor(tasks);
-		console.log(massege);
-		await requestToOpenAi(massege);
-		answerButton.hide(false);
+		if (!taskCode) {
+			answerButton.hide(false);
+		} else {
+			const massege = messegeConsructor(tasks, taskCode);
+			console.log(massege);
+			await requestToOpenAi(massege);
+			answerButton.hide(false);
+		}
 	});
 }
 
@@ -34,19 +40,25 @@ function getRequestParammetr() {
 	return tasks;
 }
 
-function messegeConsructor(task: string) {
-	const persona = `Are you an experienced programmer`;
-	const context = `you write code in typescript`;
-	const taskCode = `constructor(key: string) {
-		this.openai = new OpenAI({
-			apiKey: key,
-			dangerouslyAllowBrowser: true,
-		});
-	}`;
-	const format = `Answer in Russian, be sure to add markup for formatting the stake`;
-	const tone = `Answer in a non-normative tone`;
+function messegeConsructor(task: string, taskCode: string) {
+	const persona = `Behave like an experienced programmer`;
+	const context = ``;
+	const format = `Answer in Russian`;
+	const tone = `Answer in the style of a teacher`;
 
-	return `[${persona}] [${context}] ${task} : ${taskCode}] [${format}] [${tone}]`;
+	return `[${format}] [${persona}] [${context}] ${task} :
+	 "${taskCode}"
+	  [${format}] [${tone}]`;
+}
+
+async function getFileContent() {
+	const pathInput = new PageElementService(ElementsSelector.InputQuestion);
+	const pathInputValue = pathInput.getValue();
+
+	if (pathInputValue.error) return null;
+
+	const fileCode = await axios(`http://localhost:3333/page/file?path=${pathInputValue.content}`);
+	return `${fileCode.data}`;
 }
 
 main();
